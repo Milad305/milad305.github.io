@@ -58,14 +58,7 @@
 </head>
 <body>
   <div id="flutter_target">
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('flutter-first-frame', function () {
-          navigator.serviceWorker.register('flutter_service_worker.js?v=2946147468');
-        });
-      }
-    </script>
-    <script src="flutter_bootstrap.js" async></script>
+    <script src="flutter.js" defer></script>
   </div>
 </body>
 </html>
