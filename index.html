@@ -18,47 +18,210 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="MemberLike - Your Social Connection Platform">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#0175C2">
+  <meta name="description" content="A new Flutter project.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Disable Cloudflare Rocket Loader for Flutter.js -->
+  <script data-cfasync="false" type="text/javascript">
+    // Disable Cloudflare Rocket Loader for this script
+    window.rocketLoader = false;
+  </script>
 
   <!-- iOS meta tags & icons -->
-  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="MemberLike">
+  <meta name="apple-mobile-web-app-title" content="memberlike">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>MemberLike</title>
+  <title>memberlike</title>
   <link rel="manifest" href="manifest.json">
+
+  <!-- CORS and security headers -->
+  <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+  <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">
+
+  <script>
+    // The value below is injected by flutter build, do not touch.
+    const serviceWorkerVersion = "154735405";
+  </script>
+  <!-- This script adds the flutter initialization JS code -->
+  <script src="flutter.js" defer data-cfasync="false"></script>
+
   <style>
-    body {
-      margin: 0;
-      padding: 0;
+    /* Loading screen styles */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: white;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      background-color: #f5f5f5;
+      z-index: 9999;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     }
-    #flutter_target {
-      width: 100%;
-      max-width: 428px;
-      height: 100vh;
-      max-height: 926px;
-      margin: 0 auto;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
-      overflow: hidden;
+
+    .loading-logo {
+      width: 170px;
+      height: 170px;
+      margin-bottom: 20px;
+    }
+
+    .loading-logo-container {
       position: relative;
+      width: 170px;
+      height: 170px;
+      margin-bottom: 20px;
+    }
+
+    .loading-logo-placeholder {
+      width: 170px;
+      height: 170px;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #3118E9, #6B46C1);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 32px rgba(49, 24, 233, 0.3);
+    }
+
+    .logo-text {
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .loading-logo {
+      width: 170px;
+      height: 170px;
+      border-radius: 20px;
+    }
+
+    .loading-text {
+      color: #3118E9;
+      font-weight: 700;
+      font-size: 16px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 5px solid #E7E8FF;
+      border-top: 5px solid #3118E9;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-screen.hidden {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <div id="flutter_target">
-    <script src="flutter.js" defer></script>
+  <!-- Loading screen -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-logo-container">
+      <img src="assets/assets/svgs/appLogo.png" alt="Logo" class="loading-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" crossorigin="anonymous">
+      <div class="loading-logo-placeholder" style="display: none;">
+        <div class="logo-text">MemberLike</div>
+      </div>
+    </div>
+    <div class="loading-text">App for selling social network services</div>
+    <div class="loading-spinner"></div>
   </div>
+
+  <script data-cfasync="false">
+    // Disable Cloudflare Rocket Loader for this script
+    
+    // Global variables for navigation handling
+    let flutterApp = null;
+    let isAppReady = false;
+
+    window.addEventListener('load', function(ev) {
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine().then(function(appRunner) {
+            flutterApp = appRunner;
+            isAppReady = true;
+            
+            // Hide loading screen when Flutter app is ready
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+              loadingScreen.classList.add('hidden');
+            }
+            
+            appRunner.runApp();
+          }).catch(function(error) {
+            console.error('Failed to initialize Flutter engine:', error);
+            // Show error message to user
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+              loadingScreen.innerHTML = '<div style="text-align: center; color: red;">Failed to load app. Please refresh the page.</div>';
+            }
+          });
+        }
+      });
+    });
+
+    // Handle browser back/forward navigation
+    window.addEventListener('popstate', function(event) {
+      if (isAppReady && flutterApp) {
+        console.log('Popstate event:', event.state);
+        // The Flutter app will handle this through the WebRoutingService
+        // Don't trigger additional navigation here to prevent loops
+      }
+    });
+
+    // Handle browser back button
+    window.addEventListener('beforeunload', function(event) {
+      // This can be used to save state before leaving
+      console.log('Page is being unloaded');
+    });
+
+    // Global error handler for unhandled errors
+    window.addEventListener('error', function(event) {
+      console.error('Global error:', event.error);
+      // Don't let the error crash the app
+      event.preventDefault();
+    });
+
+    // Handle unhandled promise rejections
+    window.addEventListener('unhandledrejection', function(event) {
+      console.error('Unhandled promise rejection:', event.reason);
+      // Don't let the error crash the app
+      event.preventDefault();
+    });
+
+    // Function to handle navigation from Flutter
+    window.handleFlutterNavigation = function(route) {
+      console.log('Flutter navigation to:', route);
+      // Update browser history without triggering popstate
+      if (route && route !== window.location.hash) {
+        const newUrl = window.location.origin + '#' + route;
+        window.history.pushState({ route: route }, '', newUrl);
+      }
+    };
+
+
+  </script>
 </body>
 </html>
